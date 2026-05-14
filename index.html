@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internal Combustion Engine</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --red: #ffffff;
+      --orange: #ff6a00;
+      --yellow: #ffcc00;
+      --dark: #0d0d0d;
+      --darker: #080808;
+      --steel: #1e2530;
+      --panel: #141820;
+      --text: #e8e0d0;
+      --dim: #8899aa;
+      --accent: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--darker);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(8, 8, 8, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #ffffff30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue';
+      font-size: 28px;
+      color: var(--red);
+      letter-spacing: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--dim);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--red);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 60% 50%, #1a1a2a 0%, var(--darker) 70%);
+      padding: 80px 20px 40px;
+    }
+
+    /* animated grid */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .08) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridScroll 12s linear infinite;
+    }
+
+    @keyframes gridScroll {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(60px);
+      }
+    }
+
+    .hero-badge {
+      font-family: 'Share Tech Mono';
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: var(--red);
+      text-transform: uppercase;
+      border: 1px solid var(--red);
+      padding: 5px 16px;
+      border-radius: 2px;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+      animation: fadeDown .8s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue';
+      font-size: clamp(52px, 10vw, 120px);
+      letter-spacing: 6px;
+      line-height: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeDown .9s .1s ease both;
+    }
+
+    .hero h1 span {
+      color: var(--red);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--dim);
+      letter-spacing: 2px;
+      margin-top: 16px;
+      font-weight: 600;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeDown .9s .2s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 40px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeDown .9s .35s ease both;
+    }
+
+    .btn {
+      padding: 14px 36px;
+      font-family: 'Rajdhani';
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      border-radius: 3px;
+      text-decoration: none;
+      transition: all .25s;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: #111;
+    }
+
+    .btn-primary:hover {
+      background: #dddddd;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px #ffffff50;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid #446;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+    }
+
+    /* scroll arrow */
+    .scroll-arrow {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      animation: bounce 2s infinite;
+      color: var(--red);
+      font-size: 28px;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0)
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(10px)
+      }
+    }
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ─── ENGINE ANIMATION SECTION ─── */
+    .engine-section {
+      background: var(--steel);
+      padding: 100px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .engine-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--red), var(--orange), var(--yellow), transparent);
+    }
+
+    .section-label {
+      font-family: 'Share Tech Mono';
+      color: var(--red);
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue';
+      font-size: clamp(36px, 6vw, 72px);
+      text-align: center;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      text-align: center;
+      color: var(--dim);
+      font-size: 17px;
+      max-width: 560px;
+      margin: 0 auto 60px;
+      line-height: 1.6;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 40px auto 0;
+      max-width: 900px;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .info-table th,
+    .info-table td {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 16px 18px;
+      text-align: left;
+    }
+
+    .info-table th {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 14px;
+    }
+
+    .info-table tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* SVG ENGINE */
+    .engine-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    svg.engine-svg {
+      width: min(500px, 90vw);
+      filter: drop-shadow(0 0 40px #e6331130);
+    }
+
+    /* Engine animation now handled by JS canvas */
+
+    /* ─── STATS STRIP ─── */
+    .stats-strip {
+      background: var(--panel);
+      border-top: 1px solid #ffffff22;
+      border-bottom: 1px solid #ffffff22;
+      padding: 40px 20px;
+    }
+
+    .stats-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-family: 'Bebas Neue';
+      font-size: 52px;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .stat-unit {
+      font-size: 20px;
+      color: var(--orange);
+    }
+
+    .stat-label {
+      color: var(--dim);
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ─── COMPONENTS ─── */
+    .components-section {
+      padding: 100px 20px;
+      background: var(--darker);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .info-card {
+      background: var(--panel);
+      border: 1px solid #1e2530;
+      border-radius: 8px;
+      padding: 28px 24px;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--red);
+      box-shadow: 0 16px 40px rgba(255, 255, 255, 0.08);
+    }
+
+    .info-card-title {
+      font-family: 'Bebas Neue';
+      font-size: 24px;
+      margin-bottom: 14px;
+      color: var(--red);
+    }
+
+    .info-card-text {
+      color: var(--dim);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .component-card {
+      background: var(--panel);
+      border: 1px solid #1e2530;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+
+    .component-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--red);
+      box-shadow: 0 12px 40px #ffffff20;
+    }
+
+    .component-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--red), var(--orange));
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+
+    .component-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      filter: brightness(.8) saturate(.9);
+      transition: filter .3s;
+    }
+
+    .component-card:hover .card-img {
+      filter: brightness(1) saturate(1.1);
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .card-num {
+      font-family: 'Share Tech Mono';
+      color: var(--red);
+      font-size: 12px;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-family: 'Bebas Neue';
+      font-size: 28px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .card-text {
+      color: var(--dim);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ─── 4 STROKE SECTION ─── */
+    .strokes-section {
+      background: var(--steel);
+      padding: 100px 20px;
+      position: relative;
+    }
+
+    .strokes-grid {
+      max-width: 1100px;
+      margin: 60px auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0;
+    }
+
+    .stroke-card {
+      padding: 40px 32px;
+      border-right: 1px solid #ffffff18;
+      position: relative;
+      transition: background .3s;
+    }
+
+    .stroke-card:last-child {
+      border-right: none;
+    }
+
+    .stroke-card:hover {
+      background: #ffffff0a;
+    }
+
+    .stroke-num {
+      font-family: 'Bebas Neue';
+      font-size: 80px;
+      line-height: 1;
+      color: #ffffff15;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .stroke-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), var(--orange));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .stroke-title {
+      font-family: 'Bebas Neue';
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+
+    .stroke-text {
+      color: var(--dim);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .stroke-tag {
+      display: inline-block;
+      margin-top: 16px;
+      font-family: 'Share Tech Mono';
+      font-size: 11px;
+      color: var(--orange);
+      border: 1px solid #ff6a0040;
+      padding: 3px 10px;
+      border-radius: 2px;
+      letter-spacing: 2px;
+    }
+
+    /* ─── IMAGE GALLERY ─── */
+    .gallery-section {
+      padding: 100px 20px;
+      background: var(--darker);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 260px 260px;
+      gap: 12px;
+      margin-top: 60px;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 4px;
+      position: relative;
+      border: 1px solid #1e2530;
+      transition: border-color .3s;
+    }
+
+    .gallery-item:hover {
+      border-color: var(--red);
+    }
+
+    .gallery-item:first-child {
+      grid-row: span 2;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .5s, filter .5s;
+      filter: brightness(.75) saturate(.8);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: brightness(.9) saturate(1.1);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, .8));
+      padding: 20px 16px 12px;
+      font-family: 'Share Tech Mono';
+      font-size: 12px;
+      color: var(--orange);
+      letter-spacing: 2px;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .gallery-item:hover .gallery-caption {
+      opacity: 1;
+    }
+
+    /* ─── APPLICATIONS ─── */
+    .apps-section {
+      padding: 100px 20px;
+      background: linear-gradient(180deg, var(--steel) 0%, var(--darker) 100%);
+    }
+
+    .apps-grid {
+      max-width: 1100px;
+      margin: 60px auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .app-card {
+      background: var(--panel);
+      border: 1px solid #1e2530;
+      border-radius: 4px;
+      padding: 28px 20px;
+      text-align: center;
+      transition: all .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), var(--orange));
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+
+    .app-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .app-card:hover {
+      border-color: #ffffff40;
+      transform: translateY(-4px);
+    }
+
+    .app-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .app-title {
+      font-family: 'Bebas Neue';
+      font-size: 22px;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .app-text {
+      color: var(--dim);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #050505;
+      border-top: 1px solid #ffffff20;
+      padding: 48px 40px 32px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue';
+      font-size: 32px;
+      color: var(--red);
+      letter-spacing: 4px;
+    }
+
+    .footer-tag {
+      color: var(--dim);
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .footer-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--red);
+      margin: 8px 0;
+    }
+
+    .footer-copy {
+      font-family: 'Share Tech Mono';
+      font-size: 12px;
+      color: #445;
+      letter-spacing: 2px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width: 700px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+
+      .gallery-item:first-child {
+        grid-row: span 1;
+        grid-column: span 2;
+      }
+
+      .stroke-card {
+        border-right: none;
+        border-bottom: 1px solid #ffffff18;
+      }
+
+      nav {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">ICE<span style="color:#fff">pedia</span></div>
+    <ul class="nav-links">
+      <li><a href="#animation">Animation</a></li>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#applications">Applications</a></li>
+      <li><a href="#info">Info</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">Engineering Fundamentals · IT Project</div>
+    <h1>Internal<br><span>Combustion</span><br>Engine</h1>
+    <p class="hero-sub">Fuel · Fire · Force · Motion</p>
+    <div class="hero-cta">
+      <a href="#animation" class="btn btn-primary">See It Run</a>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </section>
+
+  <!-- ANIMATED ENGINE -->
+  <section class="engine-section" id="animation">
+    <p class="section-label">Live Animation</p>
+    <h2 class="section-title">Watch The Engine</h2>
+    <p class="section-desc">An interactive SVG cross-section showing real piston, crankshaft, valves, spark, and exhaust
+      in motion.</p>
+
+    <div class="engine-wrapper">
+      <canvas id="engineCanvas" width="500" height="520"
+        style="width:min(500px,90vw);border-radius:12px;display:block;margin:0 auto;filter:drop-shadow(0 0 40px #ffffff18)"></canvas>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById('engineCanvas');
+      var ctx = canvas.getContext('2d');
+
+      var CX = 250, CRANK_Y = 390, R = 55, L = 130;
+      var BORE_TOP = 120, BORE_BOT = 355, PISTON_H = 42, HEAD_Y = 90;
+      var angle = -Math.PI / 2;
+      var SPEED = 0.03;
+      var strokes = ['INTAKE', 'COMPRESSION', 'POWER', 'EXHAUST'];
+      var strokeIdx = 0, lastQuad = -1;
+
+      function rr(x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.arcTo(x + w, y, x + w, y + r, r);
+        ctx.lineTo(x + w, y + h - r); ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+        ctx.lineTo(x + r, y + h); ctx.arcTo(x, y + h, x, y + h - r, r);
+        ctx.lineTo(x, y + r); ctx.arcTo(x, y, x + r, y, r);
+        ctx.closePath();
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, 500, 520);
+
+        // Background
+        ctx.fillStyle = '#0b0f17'; ctx.fillRect(0, 0, 500, 520);
+        ctx.strokeStyle = 'rgba(255,255,255,0.03)'; ctx.lineWidth = 1;
+        for (var gx = 0; gx < 500; gx += 40) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, 520); ctx.stroke(); }
+        for (var gy = 0; gy < 520; gy += 40) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(500, gy); ctx.stroke(); }
+
+        // Kinematics
+        var cpx = CX + R * Math.cos(angle);
+        var cpy = CRANK_Y + R * Math.sin(angle);
+        var sinR = Math.max(-0.99, Math.min(0.99, (cpx - CX) / L));
+        var rodAng = Math.asin(sinR);
+        var ptop = cpy - L * Math.cos(rodAng);
+        var wpY = ptop + PISTON_H - 9;
+
+        // Stroke tracking
+        var norm = ((angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+        var quad = Math.floor(norm / (Math.PI / 2));
+        if (quad !== lastQuad) { strokeIdx = (strokeIdx + 1) % 4; lastQuad = quad; }
+        var isFire = (strokeIdx === 2) && Math.sin(angle) < -0.7;
+
+        // Engine block
+        ctx.fillStyle = '#1c2535'; ctx.strokeStyle = '#2a3a50'; ctx.lineWidth = 2;
+        rr(CX - 78, BORE_TOP - 32, 156, BORE_BOT - BORE_TOP + 64, 6); ctx.fill(); ctx.stroke();
+
+        // Bore
+        ctx.fillStyle = '#070d18'; ctx.fillRect(CX - 58, BORE_TOP, 116, BORE_BOT - BORE_TOP);
+        var gl = ctx.createLinearGradient(CX - 58, 0, CX - 38, 0);
+        gl.addColorStop(0, 'rgba(100,160,220,0.25)'); gl.addColorStop(1, 'rgba(100,160,220,0)');
+        ctx.fillStyle = gl; ctx.fillRect(CX - 58, BORE_TOP, 20, BORE_BOT - BORE_TOP);
+        var gr2 = ctx.createLinearGradient(CX + 38, 0, CX + 58, 0);
+        gr2.addColorStop(0, 'rgba(100,160,220,0)'); gr2.addColorStop(1, 'rgba(100,160,220,0.25)');
+        ctx.fillStyle = gr2; ctx.fillRect(CX + 38, BORE_TOP, 20, BORE_BOT - BORE_TOP);
+
+        // Combustion glow
+        if (isFire) {
+          var glow = ctx.createRadialGradient(CX, ptop + 5, 2, CX, ptop + 5, 52);
+          glow.addColorStop(0, 'rgba(255,230,80,0.85)');
+          glow.addColorStop(0.35, 'rgba(255,100,10,0.45)');
+          glow.addColorStop(1, 'rgba(255,40,0,0)');
+          ctx.fillStyle = glow; ctx.fillRect(CX - 58, BORE_TOP, 116, ptop - BORE_TOP + 10);
+        }
+
+        // Cylinder head
+        ctx.fillStyle = '#243040'; ctx.strokeStyle = '#3a5060'; ctx.lineWidth = 1.5;
+        rr(CX - 74, HEAD_Y, 148, 30, 4); ctx.fill(); ctx.stroke();
+        [-54, 0, 54].forEach(function (b) {
+          ctx.beginPath(); ctx.arc(CX + b, HEAD_Y + 15, 5, 0, Math.PI * 2);
+          ctx.fillStyle = '#162030'; ctx.fill(); ctx.strokeStyle = '#4a6070'; ctx.lineWidth = 1; ctx.stroke();
+        });
+
+        // Intake valve
+        var intOff = (strokeIdx === 0) ? 9 : 0;
+        ctx.fillStyle = '#2a4060'; ctx.strokeStyle = '#5a80a0'; ctx.lineWidth = 1.5;
+        ctx.fillRect(CX - 42, HEAD_Y + 2 + intOff, 14, 24); ctx.strokeRect(CX - 42, HEAD_Y + 2 + intOff, 14, 24);
+        ctx.strokeStyle = '#3a5a7a'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(CX - 35, HEAD_Y + intOff); ctx.lineTo(CX - 35, HEAD_Y - 16); ctx.stroke();
+
+        // Exhaust valve
+        var exhOff = (strokeIdx === 3) ? 9 : 0;
+        ctx.fillStyle = '#2a4060'; ctx.strokeStyle = '#5a80a0'; ctx.lineWidth = 1.5;
+        ctx.fillRect(CX + 28, HEAD_Y + 2 + exhOff, 14, 24); ctx.strokeRect(CX + 28, HEAD_Y + 2 + exhOff, 14, 24);
+        ctx.strokeStyle = '#3a5a7a'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(CX + 35, HEAD_Y + exhOff); ctx.lineTo(CX + 35, HEAD_Y - 16); ctx.stroke();
+
+        // Spark plug
+        ctx.fillStyle = '#a08010'; ctx.strokeStyle = '#ffcc44'; ctx.lineWidth = 1.5;
+        rr(CX - 5, HEAD_Y - 20, 10, 26, 2); ctx.fill(); ctx.stroke();
+        ctx.beginPath(); ctx.arc(CX, HEAD_Y + 8, 3.5, 0, Math.PI * 2); ctx.fillStyle = '#ffdd44'; ctx.fill();
+
+        // Spark
+        if (isFire) {
+          var spts = [[0, 0], [-5, 8], [5, 8]];
+          ctx.fillStyle = '#ffee00';
+          spts.forEach(function (s) {
+            ctx.beginPath();
+            ctx.moveTo(CX + s[0], BORE_TOP + s[1] + 2);
+            ctx.lineTo(CX + s[0] - 4, BORE_TOP + s[1] + 14);
+            ctx.lineTo(CX + s[0] + 4, BORE_TOP + s[1] + 14);
+            ctx.closePath(); ctx.fill();
+          });
+        }
+
+        // Piston body
+        var pgr = ctx.createLinearGradient(CX - 56, 0, CX + 56, 0);
+        pgr.addColorStop(0, '#1e2e3e'); pgr.addColorStop(0.25, '#3a5a70');
+        pgr.addColorStop(0.75, '#2e4a60'); pgr.addColorStop(1, '#1a2a3a');
+        ctx.fillStyle = pgr; ctx.strokeStyle = '#5a7a90'; ctx.lineWidth = 1.5;
+        rr(CX - 56, ptop, 112, PISTON_H, 4); ctx.fill(); ctx.stroke();
+        // Rings
+        [5, 13, 21].forEach(function (ry) {
+          ctx.fillStyle = '#3a5a72'; ctx.strokeStyle = '#6090b0'; ctx.lineWidth = 1;
+          ctx.fillRect(CX - 56, ptop + ry, 112, 5); ctx.strokeRect(CX - 56, ptop + ry, 112, 5);
+        });
+        // Crown shine
+        var cs = ctx.createLinearGradient(CX, ptop, CX, ptop + 10);
+        cs.addColorStop(0, 'rgba(180,220,255,0.18)'); cs.addColorStop(1, 'rgba(180,220,255,0)');
+        ctx.fillStyle = cs; ctx.fillRect(CX - 56, ptop, 112, 10);
+
+        // Wrist pin
+        ctx.beginPath(); ctx.arc(CX, wpY, 8, 0, Math.PI * 2);
+        ctx.fillStyle = '#162530'; ctx.fill(); ctx.strokeStyle = '#5a80a0'; ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.beginPath(); ctx.arc(CX, wpY, 3, 0, Math.PI * 2); ctx.fillStyle = '#243040'; ctx.fill();
+
+        // Connecting rod
+        var roda = Math.atan2(cpy - wpY, cpx - CX);
+        var px = Math.cos(roda + Math.PI / 2), py = Math.sin(roda + Math.PI / 2);
+        ctx.beginPath();
+        ctx.moveTo(CX + px * 7, wpY + py * 7); ctx.lineTo(CX - px * 7, wpY - py * 7);
+        ctx.lineTo(cpx - px * 5, cpy - py * 5); ctx.lineTo(cpx + px * 5, cpy + py * 5);
+        ctx.closePath();
+        var rgr = ctx.createLinearGradient(CX, wpY, cpx, cpy);
+        rgr.addColorStop(0, '#304a66'); rgr.addColorStop(0.5, '#5a7a9a'); rgr.addColorStop(1, '#304a66');
+        ctx.fillStyle = rgr; ctx.fill(); ctx.strokeStyle = '#6a8aaa'; ctx.lineWidth = 1; ctx.stroke();
+        // Big end
+        ctx.beginPath(); ctx.arc(cpx, cpy, 12, 0, Math.PI * 2);
+        ctx.fillStyle = '#243444'; ctx.fill(); ctx.strokeStyle = '#5a80a0'; ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.beginPath(); ctx.arc(cpx, cpy, 5, 0, Math.PI * 2); ctx.fillStyle = '#162030'; ctx.fill();
+
+        // Crankshaft - rotating arm
+        ctx.save(); ctx.translate(CX, CRANK_Y); ctx.rotate(angle);
+        ctx.fillStyle = '#2a3a52'; ctx.strokeStyle = '#4a6080'; ctx.lineWidth = 1.5;
+        ctx.fillRect(-6, -R, 12, R + 2); ctx.strokeRect(-6, -R, 12, R + 2);
+        ctx.fillStyle = '#354860'; rr(-16, 6, 32, 24, 5); ctx.fill(); ctx.stroke();
+        ctx.restore();
+
+        // Main journal
+        ctx.beginPath(); ctx.arc(CX, CRANK_Y, 22, 0, Math.PI * 2);
+        ctx.fillStyle = '#1a2a3a'; ctx.fill(); ctx.strokeStyle = '#5a7a9a'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.beginPath(); ctx.arc(CX, CRANK_Y, 10, 0, Math.PI * 2); ctx.fillStyle = '#243040'; ctx.fill();
+        ctx.beginPath(); ctx.arc(CX, CRANK_Y, 4, 0, Math.PI * 2); ctx.fillStyle = '#0d1820'; ctx.fill();
+
+        // Flywheel
+        ctx.save(); ctx.translate(CX, CRANK_Y); ctx.rotate(angle);
+        ctx.beginPath(); ctx.arc(0, 0, 36, 0, Math.PI * 2);
+        ctx.strokeStyle = '#3a5870'; ctx.lineWidth = 8; ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, 26, 0, Math.PI * 2);
+        ctx.strokeStyle = '#2a3e50'; ctx.lineWidth = 3; ctx.stroke();
+        for (var sp = 0; sp < 4; sp++) {
+          ctx.save(); ctx.rotate(sp * Math.PI / 2);
+          ctx.beginPath(); ctx.moveTo(0, -22); ctx.lineTo(0, -36);
+          ctx.strokeStyle = '#4a6880'; ctx.lineWidth = 3; ctx.stroke();
+          ctx.restore();
+        }
+        ctx.restore();
+
+        // Intake port
+        ctx.fillStyle = '#162030'; ctx.strokeStyle = '#243040'; ctx.lineWidth = 1;
+        rr(98, HEAD_Y + 2, 68, 22, 3); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = strokeIdx === 0 ? '#60c0ff' : '#3a6080';
+        ctx.font = 'bold 9px monospace'; ctx.fillText('INTAKE', 106, HEAD_Y + 16);
+        ctx.strokeStyle = strokeIdx === 0 ? '#60c0ff' : '#2a5060'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(110, HEAD_Y + 12); ctx.lineTo(162, HEAD_Y + 12); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(162, HEAD_Y + 12); ctx.lineTo(155, HEAD_Y + 8); ctx.lineTo(155, HEAD_Y + 16); ctx.closePath();
+        ctx.fillStyle = strokeIdx === 0 ? '#60c0ff' : '#2a5060'; ctx.fill();
+
+        // Exhaust port
+        ctx.fillStyle = '#180f08'; ctx.strokeStyle = '#302010'; ctx.lineWidth = 1;
+        rr(334, HEAD_Y + 2, 68, 22, 3); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = strokeIdx === 3 ? '#ffaa60' : '#806040';
+        ctx.font = 'bold 9px monospace'; ctx.fillText('EXHAUST', 338, HEAD_Y + 16);
+        ctx.strokeStyle = strokeIdx === 3 ? '#ffaa60' : '#503020'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(338, HEAD_Y + 12); ctx.lineTo(396, HEAD_Y + 12); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(396, HEAD_Y + 12); ctx.lineTo(389, HEAD_Y + 8); ctx.lineTo(389, HEAD_Y + 16); ctx.closePath();
+        ctx.fillStyle = strokeIdx === 3 ? '#ffaa60' : '#503020'; ctx.fill();
+
+        // Smoke
+        if (strokeIdx === 3) {
+          var now = Date.now() / 1000;
+          for (var sm = 0; sm < 3; sm++) {
+            var t = ((now + sm * 0.5) % 1.5) / 1.5;
+            ctx.beginPath(); ctx.arc(400 + sm * 6, HEAD_Y + 12 - t * 55, 3 + t * 7, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(190,140,90,' + (1 - t) * 0.35 + ')'; ctx.fill();
+          }
+        }
+
+        // TDC/BDC lines
+        var tdcY = BORE_TOP + 2, bdcY = BORE_BOT - PISTON_H;
+        ctx.setLineDash([4, 4]); ctx.strokeStyle = 'rgba(180,200,220,0.18)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(CX - 60, tdcY); ctx.lineTo(CX + 60, tdcY); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(CX - 60, bdcY); ctx.lineTo(CX + 60, bdcY); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = '8px monospace'; ctx.fillStyle = 'rgba(160,190,210,0.45)';
+        ctx.fillText('TDC', CX + 62, tdcY + 3); ctx.fillText('BDC', CX + 62, bdcY + 3);
+
+        // Stroke label bottom
+        ctx.font = 'bold 14px monospace'; ctx.fillStyle = 'rgba(255,255,255,0.65)';
+        ctx.textAlign = 'center'; ctx.fillText(strokes[strokeIdx] + ' STROKE', 250, 510); ctx.textAlign = 'left';
+
+        angle += SPEED;
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+  </script>
+
+  <!-- STATS -->
+  <section class="stats-strip">
+    <div class="stats-grid reveal">
+      <div>
+        <div class="stat-val">4<span class="stat-unit">×</span></div>
+        <div class="stat-label">Strokes per Cycle</div>
+      </div>
+      <div>
+        <div class="stat-val">700<span class="stat-unit">°C</span></div>
+        <div class="stat-label">Combustion Temp</div>
+      </div>
+      <div>
+        <div class="stat-val">6000<span class="stat-unit">+</span></div>
+        <div class="stat-label">Max RPM (petrol)</div>
+      </div>
+      <div>
+        <div class="stat-val">30<span class="stat-unit">%</span></div>
+        <div class="stat-label">Avg Thermal Efficiency</div>
+      </div>
+      <div>
+        <div class="stat-val">1876</div>
+        <div class="stat-label">Year ICE Was Patented</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section id="components">
+    <div class="components-section">
+      <p class="section-label">Anatomy</p>
+      <h2 class="section-title reveal">Main Components</h2>
+      <p class="section-desc reveal">Every internal combustion engine shares a core set of precision-engineered parts
+        working in harmony.</p>
+
+      <div class="components-grid">
+
+        <div class="component-card reveal">
+          <img class="card-img"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/4_stroke_engine_diagram.jpg/640px-4_stroke_engine_diagram.jpg"
+            alt="Engine piston"
+            onerror="this.src='https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=80'" />
+          <div class="card-body">
+            <div class="card-num">COMPONENT / 01</div>
+            <div class="card-title">Piston</div>
+            <p class="card-text">The piston reciprocates inside the cylinder, converting the energy of expanding gases
+              into mechanical motion. Made from aluminium alloy for a perfect balance of strength and weight.</p>
+          </div>
+        </div>
+
+        <div class="component-card reveal">
+          <img class="card-img" src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=600&q=80"
+            alt="Crankshaft"
+            onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80'" />
+          <div class="card-body">
+            <div class="card-num">COMPONENT / 02</div>
+            <div class="card-title">Crankshaft</div>
+            <p class="card-text">Converts the linear back-and-forth motion of the piston into the rotational motion used
+              to drive the wheels. One of the most highly stressed components in the engine.</p>
+          </div>
+        </div>
+
+        <div class="component-card reveal">
+          <img class="card-img" src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&q=80"
+            alt="Spark plug"
+            onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80'" />
+          <div class="card-body">
+            <div class="card-num">COMPONENT / 03</div>
+            <div class="card-title">Spark Plug</div>
+            <p class="card-text">Generates a precisely-timed electrical spark to ignite the compressed air-fuel mixture.
+              Fires thousands of times per minute under extreme heat and pressure conditions.</p>
+          </div>
+        </div>
+
+        <div class="component-card reveal">
+          <img class="card-img" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80"
+            alt="Valves" onerror="this.src='https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=80'" />
+          <div class="card-body">
+            <div class="card-num">COMPONENT / 04</div>
+            <div class="card-title">Valves</div>
+            <p class="card-text">Intake valves allow the air-fuel mixture in; exhaust valves let burnt gases escape.
+              Controlled by the camshaft, they open and close with extraordinary precision at high RPM.</p>
+          </div>
+        </div>
+
+        <div class="component-card reveal">
+          <img class="card-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+            alt="Connecting rod"
+            onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80'" />
+          <div class="card-body">
+            <div class="card-num">COMPONENT / 05</div>
+            <div class="card-title">Connecting Rod</div>
+            <p class="card-text">Links the piston to the crankshaft, transmitting the force of combustion. Must endure
+              immense compressive, tensile, and bending loads across millions of cycles.</p>
+          </div>
+        </div>
+
+        <div class="component-card reveal">
+          <img class="card-img" src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=600&q=80"
+            alt="Engine block"
+            onerror="this.src='https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=80'" />
+          <div class="card-body">
+            <div class="card-num">COMPONENT / 06</div>
+            <div class="card-title">Engine Block & Head</div>
+            <p class="card-text">The block houses the cylinders, coolant passages, and oil galleries. The cylinder head
+              contains the valves and combustion chambers, bolted to the block with a head gasket seal.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGINE PARTS -->
+  <section id="engine-parts">
+    <div class="components-section">
+      <p class="section-label">Real Components</p>
+      <h2 class="section-title reveal">Engine Parts</h2>
+      <p class="section-desc reveal">
+        Actual dismantled engine components used for inspection, assembly, maintenance, and mechanical study.
+      </p>
+
+      <div class="components-grid">
+
+        <!-- PART 1 -->
+        <div class="component-card reveal">
+          <img class="card-img" src="part1.jpeg" alt="Engine Housing">
+          <div class="card-body">
+            <div class="card-num">PART / 01</div>
+            <div class="card-title">Crankcase Assembly</div>
+            <p class="card-text">
+              Main lower engine housing that supports rotating components like the crankshaft and transmission
+              mechanism.
+            </p>
+          </div>
+        </div>
+
+        <!-- PART 2 -->
+        <div class="component-card reveal">
+          <img class="card-img" src="part2.jpeg" alt="Cylinder Block">
+          <div class="card-body">
+            <div class="card-num">PART / 02</div>
+            <div class="card-title">Cylinder Block</div>
+            <p class="card-text">
+              The cylinder block contains the combustion chamber where the piston moves up and down.
+            </p>
+          </div>
+        </div>
+
+        <!-- PART 3 -->
+        <div class="component-card reveal">
+          <img class="card-img" src="part3.jpeg" alt="Engine Cover">
+          <div class="card-body">
+            <div class="card-num">PART / 03</div>
+            <div class="card-title">Engine Side Cover</div>
+            <p class="card-text">
+              Protective casing used to enclose internal rotating assemblies.
+            </p>
+          </div>
+        </div>
+
+        <!-- PART 4 -->
+        <div class="component-card reveal">
+          <img class="card-img" src="part4.jpeg" alt="Transmission Housing">
+          <div class="card-body">
+            <div class="card-num">PART / 04</div>
+            <div class="card-title">Transmission Housing</div>
+            <p class="card-text">
+              Internal casing section that supports shafts, bearings, and gears.
+            </p>
+          </div>
+        </div>
+
+        <!-- PART 5 -->
+        <div class="component-card reveal">
+          <img class="card-img" src="part5.jpeg" alt="Cylinder Head">
+          <div class="card-body">
+            <div class="card-num">PART / 05</div>
+            <div class="card-title">Cylinder Head Section</div>
+            <p class="card-text">
+              Upper engine section containing combustion passages and valve mounting surfaces.
+            </p>
+          </div>
+        </div>
+
+        <!-- PART 06 -->
+        <div class="component-card reveal">
+          <img class="card-img" src="part6.jpeg" alt="BMW M57 Diesel Engine">
+          <div class="card-body">
+            <div class="card-num">PART / 06</div>
+            <div class="card-title">Cylinder Head Section</div>
+            <p class="card-text">
+              8-speed automatic transmission used for high-performance and fuel-efficient applications.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="gallery-section">
+      <p class="section-label">Visual Reference</p>
+      <h2 class="section-title reveal">Engine Gallery</h2>
+      <p class="section-desc reveal">Real-world views of internal combustion engines across automotive and industrial
+        applications.</p>
+
+      <div class="gallery-grid reveal">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=85" alt="Engine bay" />
+          <div class="gallery-caption">V8 ENGINE BAY</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=500&q=80" alt="Racecar engine" />
+          <div class="gallery-caption">HIGH PERFORMANCE</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=500&q=80" alt="Engine parts" />
+          <div class="gallery-caption">ENGINE COMPONENTS</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt="Car mechanics" />
+          <div class="gallery-caption">AUTOMOTIVE WORKSHOP</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=500&q=80" alt="Engine detail" />
+          <div class="gallery-caption">PRECISION ENGINEERING</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPLICATIONS -->
+  <section class="apps-section" id="applications">
+    <p class="section-label">Where It's Used</p>
+    <h2 class="section-title reveal">Applications</h2>
+    <p class="section-desc reveal">The internal combustion engine powers a vast range of machines across transport,
+      industry, and beyond.</p>
+
+    <div class="apps-grid">
+      <div class="app-card reveal">
+        <div class="app-icon">🚗</div>
+        <div class="app-title">Automobiles</div>
+        <p class="app-text">Cars, SUVs, and light trucks — the most common application of the ICE worldwide.</p>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-icon">✈️</div>
+        <div class="app-title">Aircraft</div>
+        <p class="app-text">Piston engines power light aircraft and early aviation, still used in general aviation
+          today.</p>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-icon">🚢</div>
+        <div class="app-title">Marine</div>
+        <p class="app-text">Large diesel ICEs power ships, ferries, submarines, and offshore vessels globally.</p>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-icon">🏍️</div>
+        <div class="app-title">Motorcycles</div>
+        <p class="app-text">Single and twin-cylinder engines deliver high power-to-weight ratios for two-wheelers.</p>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-icon">🏗️</div>
+        <div class="app-title">Heavy Machinery</div>
+        <p class="app-text">Excavators, bulldozers, cranes, and industrial generators all run on powerful ICEs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFO -->
+  <section id="info">
+    <div class="components-section">
+      <p class="section-label">Project Info</p>
+      <h2 class="section-title reveal">About the Project</h2>
+      <p class="section-desc reveal">This website is developed as a part of the Continuous Internal Assessment (CIA)
+        activity under the course “IT For Engineers (ESIT119)” by the students of first Year Mechanical Engineering,
+        Department of Mechanical Engineering, Sanjivani College of Engineering, Kopargaon, under Sanjivani Rural
+        Educational Society’s, for the Academic Year 2025–26. The project is created for educational and learning
+        purposes using web technologies such as HTML, CSS, and JavaScript. The objective of this activity is to enhance
+        technical knowledge, creativity, and practical web development skills through engineering-based applications and
+        digital presentation.</p>
+      <h3 class="section-title reveal" style="font-size: clamp(22px, 3vw, 32px); margin-top: 36px;">GROUP INFORMATION
+      </h3>
+      <table class="info-table reveal">
+        <thead>
+          <tr>
+            <th>Group Information</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Project Title</td>
+            <td>Internal Combustion Engine Working Website</td>
+          </tr>
+          <tr>
+            <td>Group Number</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Course</td>
+            <td>IT For Engineers (ESIT119)</td>
+          </tr>
+          <tr>
+            <td>Faculty Guide</td>
+            <td>Prof. J.B.Ashtekar</td>
+          </tr>
+          <tr>
+            <td>Department</td>
+            <td>Department of Mechanical Engineering</td>
+          </tr>
+          <tr>
+            <td>College</td>
+            <td>Sanjivani College of Engineering, Kopargaon</td>
+          </tr>
+          <tr>
+            <td>Academic Year</td>
+            <td>2025–26</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="section-title reveal" style="font-size: clamp(22px, 3vw, 32px); margin-top: 36px;">Group members</h3>
+      <table class="info-table reveal">
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Name of students</th>
+            <th>Roll No.</th>
+            <th>Linkedln/Profile link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Sanket Ghate</td>
+            <td>92</td>
+            <td><a
+                href="https://www.linkedin.com/in/sanket-ghate-7b100640b?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                style="color: var(--yellow); text-decoration: underline;">LinkedIn</a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Vidya Pardeshi</td>
+            <td>93</td>
+            <td><a
+                href="https://www.linkedin.com/in/vidya-pardeshi-079b5640a?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                style="color: var(--yellow); text-decoration: underline;">LinkedIn</a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Aarti Borbane</td>
+            <td>94</td>
+            <td><a
+                href="https://www.linkedin.com/in/aarti-borbane-222854297?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                style="color: var(--yellow); text-decoration: underline;">LinkedIn</a></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Asmita Galande</td>
+            <td>95</td>
+            <td><a
+                href="https://www.linkedin.com/in/asmita-galande-194451387?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                style="color: var(--yellow); text-decoration: underline;">LinkedIn</a></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Amita Sonawane</td>
+            <td>96</td>
+            <td><a
+                href="https://www.linkedin.com/in/amita-sonawane-904175387?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                style="color: var(--yellow); text-decoration: underline;">LinkedIn</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="section-title reveal" style="font-size: clamp(22px, 3vw, 32px); margin-top: 36px;">Guided by</h3>
+      <table class="info-table reveal">
+        <tbody>
+          <tr>
+            <td>Prof. J.B. Ashtekar</td>
+            <td><a
+                href="https://www.linkedin.com/in/jaydeep-ashtekar-6a54a1196?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                style="color: var(--yellow); text-decoration: underline;">LinkedIn Profile</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">ICEpedia</div>
+      <div class="footer-tag">A comprehensive guide to Internal Combustion Engine technology</div>
+      <div class="footer-divider"></div>
+      <div class="footer-copy">DEVELOPED BY STUDENT · IT PROJECT · 2026</div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth active nav highlight
+    const sections = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 80) current = s.id;
+      });
+      links.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? '#ffffff' : '';
+      });
+    });
+  </script>
+</body>
+
+</html>
